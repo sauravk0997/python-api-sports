@@ -1,0 +1,9 @@
+{
+    "robot.python.executable": "/usr/local/bin/python3",
+    "robot.language-server.python": "/usr/local/bin/python3",
+    "robot.pythonpath": [
+     
+     "/Users/sauravkumar/Documents/Sourav/espn-sports-core-validation-main"
+    ],
+    "robocorp.language-server.python": "/usr/local/bin/python3"
+}

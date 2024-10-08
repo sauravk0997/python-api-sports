@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 5.0.1 (Python 3.10.7 on darwin)" generated="20221013 15:40:08.866" rpa="false" schemaversion="3">
+<suite id="s1" name="Volleyball-Tests" source="/Users/sauravkumar/Documents/Saurav/espn-sports-core-validation-main/testsuite/volleyball-tests.robot">
+<test id="s1-t1" name="Get Volleyball Baseline Responses" line="24">
+<kw name="A GET request to ${REQUEST_URL} should respond with 200" library="ESPNCoreAPIResource" sourcename="A GET request to ${endpoint} should respond with ${status}">
+<var>${response}</var>
+<doc>Custom GET keyword with status validation.</doc>
+<kw name="GET" library="RequestsLibrary">
+<var>${api_response}</var>
+<arg>url=${endpoint}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20221013 15:40:10.007" level="INFO">GET Request : url=https://sports.core.api.espnsb.com/v3/sports/volleyball 
+ path_url=/v3/sports/volleyball 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate, br', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20221013 15:40:10.010" level="INFO">GET Response : url=https://sports.core.api.espnsb.com/v3/sports/volleyball 
+ status=200, reason=OK 
+ headers={'Date': 'Thu, 13 Oct 2022 10:10:09 GMT', 'Content-Type': 'application/json;charset=utf-8', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Access-Control-Allow-Origin': '*', 'Content-Encoding': 'gzip', 'Via': '1.1 varnish (Varnish/6.0)', 'Cache-Control': 'max-age=10', 'Vary': 'Accept-Encoding', 'Accept-Ranges': 'bytes'} 
+ body={"id":"400","uid":"s:400","guid":"be9385dc-c518-3a55-9197-ec47a9e0e7f6","name":"Volleyball","slug":"volleyball"} 
+ </msg>
+<msg timestamp="20221013 15:40:10.011" level="INFO">${api_response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20221013 15:40:08.980" endtime="20221013 15:40:10.011"/>
+</kw>
+<msg timestamp="20221013 15:40:10.011" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20221013 15:40:08.980" endtime="20221013 15:40:10.012"/>
+</kw>
+<kw name="Sport Schema from ${response} should be valid for volleyball" library="lib.validators.VolleyballValidator" sourcename="Sport Schema from ${response} should be valid for volleyball">
+<tag>CoreV3</tag>
+<tag>functional</tag>
+<tag>schema checks</tag>
+<doc>Schema for the endpoint: /v3/sports/{SportName}
+  ie: v3/sports/volleyball/</doc>
+<status status="PASS" starttime="20221013 15:40:10.013" endtime="20221013 15:40:10.014"/>
+</kw>
+<kw name="Validate the expected and actual values from the response" library="lib.validators.ESPNSportsCoreCommonValidator">
+<arg>${response.json()}</arg>
+<arg>["id", "name", "slug", "uid", "guid"]</arg>
+<arg>["${VOLLEYBALL_ID}", "${VOLLEYBALL_NAME}", "${SPORT}", "${VOLLEYBALL_UID}", "${VOLLEYBALL_GUID}"]</arg>
+<tag>CoreV3</tag>
+<tag>functional</tag>
+<tag>soccer</tag>
+<doc>Validate the actual and expected values</doc>
+<status status="PASS" starttime="20221013 15:40:10.014" endtime="20221013 15:40:10.017"/>
+</kw>
+<tag>cseauto-25577</tag>
+<tag>valid</tag>
+<tag>volleyball</tag>
+<status status="PASS" starttime="20221013 15:40:08.979" endtime="20221013 15:40:10.017"/>
+</test>
+<doc>Basketball tests are executing with positive, negative combinations along with schema validation
+to run: robot --pythonpath $PWD ./testsuite/volleyball-tests.robot</doc>
+<status status="PASS" starttime="20221013 15:40:08.869" endtime="20221013 15:40:10.018"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="1" fail="0" skip="0">cseauto-25577</stat>
+<stat pass="1" fail="0" skip="0">valid</stat>
+<stat pass="1" fail="0" skip="0">volleyball</stat>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Volleyball-Tests">Volleyball-Tests</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

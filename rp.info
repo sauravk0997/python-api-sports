@@ -1,0 +1,35 @@
+--listener robotframework_reportportal.listener
+--variable RP_UUID:"your_user_uuid"
+--variable RP_ENDPOINT:"your_reportportal_url"
+--variable RP_LAUNCH:"launch_name"
+--variable RP_PROJECT:"reportportal_project_name"
+
+--variable RP_LAUNCH_UUID:"id_of_existing_rp_launch"
+    - ID of existing Report Portal launch
+--variable RP_LAUNCH_DOC:"some_documentation_for_launch"
+    - Description for the launch
+--variable RP_LAUNCH_ATTRIBUTES:"RF tag_name:tag_value"
+    - Space-separated list of tags/attributes for the launch
+--variable RP_TEST_ATTRIBUTES:"key1:value1 key1:value2 tag key2:value3"
+    - Space-separated list of tags/attributes for the tests
+--variable RP_LOG_BATCH_SIZE:"10"
+    - Default value is "20", affects size of async batch log requests
+--variable RP_RERUN:"True"
+    - Default is "False". Enables rerun mode for the last launch.
+--variable RP_RERUN_OF:"xxxxx-xxxx-xxxx-lauch-uuid"
+    - Default is "None". Enables rerun mode for the launch with the specified
+      UUID. Should be used in combination with the RP_RERUN option.
+--variable RP_SKIPPED_ISSUE:"True"
+    - Default value is "True", marks skipped test items with 'To Investigate'
+--variable RP_ATTACH_LOG:"True"
+    - Default value is "False", attaches Robot Framework HTML log file to
+      the launch.
+--variable RP_ATTACH_REPORT:"True"
+    - Default value is "False", attaches Robot Framework HTML report file to
+      the launch.
+--variable RP_ATTACH_XUNIT:"True"
+    - Default value is "False", attaches Robot Framework XUnit result file to
+      the launch.
+--variable RP_VERIFY_SSL:"True"
+    - Default value is "True", disables SSL verification for HTTP requests.
+      Also, you can specify a full path to your certificate as the value.

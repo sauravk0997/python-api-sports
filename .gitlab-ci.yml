@@ -1,0 +1,59 @@
+# This file is a template, and might need editing before it works on your project.
+# To contribute improvements to CI/CD templates, please follow the Development guide at:
+# https://docs.gitlab.com/ee/development/cicd/templates.html
+# This specific template is located at:
+# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Python.gitlab-ci.yml
+
+# Official language image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/python/tags/
+image: python:latest
+
+# Change pip's cache directory to be inside the project directory since we can
+# only cache local items.
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+# Pip's cache doesn't store the python packages
+# https://pip.pypa.io/en/stable/reference/pip_install/#caching
+#
+# If you want to also cache the installed packages, you have to install
+# them in a virtualenv and cache it as well.
+cache:
+  paths:
+    - .cache/pip
+
+mergejob:
+  script:
+    # an alternative approach is to install and run:
+    - pip install -r requirements.txt
+    # run the command here
+    - python -m robot --pythonpath $PWD testsuite/*.robot
+
+  artifacts:
+    paths:
+      - output.xml
+      - report.html
+      - log.html
+
+  rules:
+    #- if: $CI_MERGE_REQUEST_ID
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: always
+
+nightlyjob:
+  script:
+    # an alternative approach is to install and run:
+    - pip install -r requirements.txt
+    # run the command here
+    # - python -m robot --listener robotframework_reportportal.listener -v RP_LOG_BATCH_SIZE:100 -v RP_UUID:$CI_UUID -v RP_ENDPOINT:https://reportportal.productivity.dtcisb.technology -v RP_LAUNCH:nightly -v RP_PROJECT:roxas-api-espn-core-v3 --pythonpath $PWD testsuite/*.robot
+    - if [ -z "$RF_SUITE" ]; then python -m robot --listener robotframework_reportportal.listener -v RP_LOG_BATCH_SIZE:100 -v RP_UUID:$CI_UUID -v RP_ENDPOINT:$CI_ENDPOINT -v RP_LAUNCH:nightly -v RP_PROJECT:roxas-api-espn-core-v3 --pythonpath $PWD $CI_TAGS testsuite/*.robot; else python -m robot --listener robotframework_reportportal.listener -v RP_LOG_BATCH_SIZE:100 -v RP_UUID:$CI_UUID -v RP_ENDPOINT:$CI_ENDPOINT -v RP_LAUNCH:$RF_SUITE -v RP_PROJECT:roxas-api-espn-core-v3 --pythonpath $PWD $CI_TAGS testsuite/$RF_SUITE-tests.robot; fi
+
+  artifacts:
+    paths:
+      - output.xml
+      - report.html
+      - log.html
+
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: always
